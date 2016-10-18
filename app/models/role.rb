@@ -7,18 +7,6 @@ class Role < ActiveRecord::Base
   
   ROLE = { admin: '管理员', purchase: '采购员', sorter: '库存管理员', order: '订单管理员'}
 
-  def purchase?
-    (role.eql? 'purchase') ? true : false
-  end
-
-  def sorter?
-    (role.eql? 'sorter') ? true : false
-  end
-
-  def order?
-    (role.eql? 'order') ? true : false
-  end
-
   def self.get_units_by_user_id(user_id)
     Role.where("user_id = ?", user_id).group(:unit_id)
   end
