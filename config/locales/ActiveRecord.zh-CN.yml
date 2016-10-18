@@ -267,6 +267,12 @@ zh-CN:
       unit:
         one: 单位管理
         other: 单位管理
+      user_log:
+        one: 用户日志
+        other: 用户日志
+      role:
+        one: 角色管理
+        other: 角色管理
     attributes:
       user:
         email: "电子邮件"

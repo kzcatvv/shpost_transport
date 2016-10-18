@@ -5,10 +5,6 @@ class Users::SessionsController < Devise::SessionsController
       puts "test Users::SessionsController"
       @user_log = UserLog.create(user: current_user, operation: '用户登录')
 
-      if !current_user.unit.nil?
-      	session[:current_storage] = current_user.storages.first.id
-      end
-
     end
     puts "Users::SessionsController end"
   end

@@ -56,5 +56,9 @@ ShpostBase::Application.routes.draw do
   root 'welcome#index'
 
   devise_for :users, controllers: { sessions: "users/sessions" }
+
+  resources :users do
+     resources :roles, :controller => 'user_roles'
+  end
   
 end
