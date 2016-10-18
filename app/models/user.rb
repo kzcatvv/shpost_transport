@@ -4,7 +4,6 @@ class User < ActiveRecord::Base
   belongs_to :unit
   has_many :user_logs
   has_many :roles, dependent: :destroy
-  has_many :storages, through: :roles, uniq: true
 
   devise :database_authenticatable, #:registerable,
          :recoverable, :rememberable, :trackable, :validatable
@@ -29,26 +28,6 @@ class User < ActiveRecord::Base
 
   def user?
     (role.eql? 'user') ? true : false
-  end
-
-  def admin?(storage)
-    !roles.where(storage_id: storage, role: 'admin').empty?
-  end
-
-  def purchase?(storage)
-    !roles.where(storage_id: storage, role: 'purchase').empty?
-  end
-
-  def sorter?(storage)
-    !roles.where(storage_id: storage, role: 'sorter').empty?
-  end
-
-  def order?(storage)
-    !roles.where(storage_id: storage, role: 'order').empty?
-  end
-
-  def packer?(storage)
-    !roles.where(storage_id: storage, role: 'packer').empty?
   end
 
   def email_required?

@@ -17,14 +17,7 @@ class ApplicationController < ActionController::Base
   end
 
   def current_ability
-    @current_ability ||= Ability.new(current_user, current_storage)
-  end
-
-  def current_storage
-    if !session[:current_storage].blank?
-      Storage.find session[:current_storage]
-    end
-
+    @current_ability ||= Ability.new(current_user)
   end
 
   def configure_charsets
@@ -133,99 +126,6 @@ class ApplicationController < ActionController::Base
             @user_log.object_symbol = symbol
         end
         @user_log.save
-      end
-    end
-  end
-
-  def set_product_select(objid)
-      commodityid=Specification.find(objid.specification_id).commodity_id
-      goodstypeid=Commodity.find(commodityid).goodstype_id
-      @commodity=Commodity.find(commodityid)
-      @goodstype=Goodstype.find(goodstypeid)
-  end
-
-  def set_autocom_update(objid)
-      @spname=Specification.find(objid.specification_id).all_name
-  end
-
-  def self.interface_invokes_filter *args
-    after_filter args.first.select{|k,v| k == :only || k == :expert} do |controller|
-      interface_invoke args.first.reject{|k,v| k == :only || k == :expert}
-    end
-  end
-
-  def interface_invoke *args
-    object = eval("@#{args.first[:object].to_s}")
-    object ||= eval("@#{controller_name.singularize}")
-    business_id = object.try :business_id
-    business_id ||= eval("@#{args.first[:business_id].to_s}")
-    finish = eval("@#{args.first[:finish].to_s}")
-    if !finish.blank? and finish.eql?"1"
-      object_id = object.try :id
-      object_id ||= eval("@#{args.first[:object_id].to_s}")
-      other_params = eval("@#{args.first[:params].to_s}")
-
-      action_type = nil
-      if object.is_a? BigPacket
-        action_type = object.try :big_packet_type
-      elsif object.is_a? Order
-        action_type = object.try :transport_type
-      end
-      action = args.first[:action].to_s
-      if !action_type.blank?
-        action = args.first[:action].to_s+ "_" + action_type.to_s
-      end
-
-      unit_id = current_user.try(:unit).try :id
-      unit_id ||= object.try :unit_id
-      unit_id ||= eval("@#{args.first[:unit_id].to_s}")
-      
-      storage_id = current_storage.try :id
-      storage_id ||= object.try :storage_id
-      storage_id ||= eval("@#{args.first[:storage_id].to_s}")
-
-      re = InterfaceInvoke.where(model: object.try(:class).to_s, action: action).order(:priority)
-
-      if !re.blank? and !business_id.blank?
-        re = re.where(business: business_id.to_i).order(:priority)
-      end
-      if !re.blank?
-        re.each do |r|
-          theClass = r.theClass.constantize
-          interface_sender = InterfaceSender.find_by(business_id: business_id, unit_id: unit_id, storage_id: storage_id, object_class: object.class.to_s, object_id: object_id, interface_code: r.interfaceSender)
-          next if ! interface_sender.blank?
-          body = theClass.send r.method,object
-          interface_sender_args = {business_id: business_id, unit_id: unit_id, storage_id: storage_id, object_class: object.class.to_s, object_id: object_id}
-          if !other_params.blank? && other_params.is_a?(Hash)
-            interface_sender_args.merge!(other_params)
-          end
-          
-          InterfaceSender.interface_sender_initialize(r.interfaceSender, body, interface_sender_args)
-        end
-      end
-    end
-  end
-
-  def self.tarrif_invokes_filter *args
-    after_filter args.first.select{|k,v| k == :only || k == :expert} do |controller|
-      tarrif_invoke args.first.reject{|k,v| k == :only || k == :expert}
-    end
-  end
-
-  def tarrif_invoke *args
-    object = eval("@#{args.first[:object].to_s}")
-    object ||= eval("@#{controller_name.singularize}")
-    business_id = object.try :business_id
-    business_id ||= eval("@#{args.first[:business_id].to_s}")
-    finish = eval("@#{args.first[:finish].to_s}")
-
-    if !finish.blank? and finish.eql?"1"
-      if !business_id.blank?
-        r = TarrifInvoke.where(model: object.try(:class).to_s, action: args.first[:action]).first
-        if !r.blank?
-          theClass = r.theClass.constantize
-          theClass.send r.method,object
-        end
       end
     end
   end
