@@ -2,7 +2,7 @@
   <%= f.error_messages %>
 
   <div class="control-group">
-    <%= f.label :storage_id, :class => 'control-label' %>
+    <%= f.label :unit_id, :class => 'control-label' %>
     <div class="controls">
       <%= f.select(:unit_id, Unit.all.accessible_by(current_ability).map{|u| [u.name,u.id]}) %>
     </div>
