@@ -13,7 +13,7 @@
 <table class="table table-striped">
   <thead>
     <tr>
-      <th><%= model_class.human_attribute_name(:storage_id) %></th>
+      <th><%= model_class.human_attribute_name(:unit_id) %></th>
       <th><%= model_class.human_attribute_name(:role) %></th>
       <th><%=t '.actions', :default => t("helpers.actions") %></th>
     </tr>
@@ -21,7 +21,7 @@
   <tbody>
     <% @role_groups.each do |x, y| %>
       <tr>
-        <td><%= y.first.storage.name %></td>
+        <td><%= y.first.unit.name %></td>
         <td><%= y.collect{|z| Role::ROLE[z.role.to_sym]}.to_sentence %></td>
         <td></td>
       </tr>

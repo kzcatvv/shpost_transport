@@ -5,7 +5,7 @@ class UserRolesController < ApplicationController
   # GET /roles
   # GET /roles.json
   def index
-    @role_groups = @roles.group_by{|x| x.storage_id}
+    @role_groups = @roles.group_by{|x| x.unit_id}
   end
 
   # GET /roles/1
@@ -61,6 +61,6 @@ class UserRolesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def role_params
-      params.require(:role).permit( :storage_id, :role)
+      params.require(:role).permit( :unit_id, :role)
     end
 end

@@ -67,11 +67,6 @@ class UnitsController < ApplicationController
     #def set_unit
       #@unit = Unit.find(params[:id])
     #end
-    def set_default_storage
-       if @unit.storages.where("default_storage=?",true).empty?
-          @defaultstorage=Storage.create(name: @unit.name+"仓库",desc: @unit.name+"仓库",unit: @unit,default_storage: true)
-       end
-    end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def unit_params
