@@ -57,6 +57,8 @@ ShpostBase::Application.routes.draw do
 
   devise_for :users, controllers: { sessions: "users/sessions" }
 
+  resources :user_logs, only: [:index, :show, :destroy]
+
   resources :units do
     resources :users, :controller => 'unit_users'
   end
