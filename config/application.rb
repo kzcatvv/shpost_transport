@@ -25,6 +25,7 @@ module ShpostBase
 
     config.time_zone = 'Beijing'
     config.active_record.default_timezone = :local
+    config.assets.enabled= true
 
     config.generators do |g|
         g.test_framework :rspec,
