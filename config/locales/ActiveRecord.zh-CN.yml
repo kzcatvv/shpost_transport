@@ -147,6 +147,8 @@ zh-CN:
       destroy: 删除
       cancel: 取消
       back: 返回
+      users: 用户管理
+      roles: 角色管理
     titles:
       edit: 编辑%{model}
       new: 新增%{model}
@@ -291,8 +293,12 @@ zh-CN:
         desc: "单位描述"
         short_name: "英文缩写"
         tcbd_khdh: "商务投递客户编号"
-        unit_level: "单位级别"
+        level: "单位级别"
         parent_id: "上级单位"
+      role:
+        user_id: "用户"
+        unit_id: "单位"
+        role: "角色"
       user_log:
         user_id: "用户"
         username: "操作用户"
