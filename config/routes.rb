@@ -1,4 +1,20 @@
 ShpostBase::Application.routes.draw do
+  resources :stations
+
+  resources :drivers
+
+  resources :cars
+
+  resources :teams do
+  end
+
+  resources :auto_complete do
+    get :autocomplete_user_name, :on => :collection
+    get :autocomplete_car_car_number, :on => :collection
+    get :autocomplete_driver_name, :on => :collection
+    get :autocomplete_station_name, :on => :collection
+  end
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
@@ -59,9 +75,9 @@ ShpostBase::Application.routes.draw do
 
   resources :user_logs, only: [:index, :show, :destroy]
 
-  resources :units do
-    resources :users, :controller => 'unit_users'
-  end
+  # resources :units do
+  #   resources :users, :controller => 'unit_users'
+  # end
 
   resources :users do
      resources :roles, :controller => 'user_roles'

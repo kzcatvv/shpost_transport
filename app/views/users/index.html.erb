@@ -18,8 +18,8 @@
 
     g.column name: model_class.human_attribute_name(:email), attribute: 'email'
 
-    g.column name: model_class.human_attribute_name(:unit_id), attribute: 'unit_id' ,custom_filter: Unit.accessible_by(current_ability).map{|u| [u.name,u.id]} do |user|
-      user.unit.try :name
+    g.column name: model_class.human_attribute_name(:team_id), attribute: 'team_id' ,custom_filter: Team.accessible_by(current_ability).map{|u| [u.name,u.id]} do |user|
+      user.team.try :name
     end
 
     g.column name: model_class.human_attribute_name(:role), attribute: 'role' ,custom_filter: User::ROLE.invert do |user| 

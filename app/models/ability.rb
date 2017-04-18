@@ -5,44 +5,44 @@ class Ability
     user ||= User.new
     if user.superadmin?
         can :manage, User
-        can :manage, Unit
+        can :manage, Team
+        can :read, Car
+        can :read, Driver
+        can :read, Station
         can :manage, UserLog
         can :manage, Role
-        can :role, :unitadmin
+        can :role, :teamadmin
         can :role, :user
 
-        # cannot :role, :superadmin
         cannot [:role, :create, :destroy, :update], User, role: 'superadmin'
-        can :update, User, id: user.id
+    elsif user.teamadmin?
+        can [:read,:update], Team, id: user.team_id
+        can :manage, Car, team_id: user.team_id
+        can :manage, Driver, team_id: user.team_id
+        can :manage, Station, team_id: user.team_id
 
-        
-    elsif user.unitadmin?
-    #can :manage, :all
-        
+        can :read, UserLog, user: {team_id: user.team_id}
 
-        can :manage, Unit, id: user.unit_id
-
-        can :read, UserLog, user: {unit_id: user.unit_id}
-        can :destroy, UserLog, operation: '订单导入'
-
-        can :manage, User, unit_id: user.unit_id
+        can :manage, User, team_id: user.team_id
 
         can :manage, Role
         cannot :role, User, role: 'superadmin'
-        can :role, :unitadmin
+        can :role, :teamadmin
         can :role, :user
         
-        # cannot :role, User, role: 'unitadmin'
-        cannot [:create, :destroy, :update], User, role: ['unitadmin', 'superadmin']
+        cannot [:create, :destroy, :update], User, role: ['teamadmin', 'superadmin']
         can :update, User, id: user.id
 
         # can :manage,BusinessRelationship
         
     elsif user.user?
         can :update, User, id: user.id
-        can :read, UserLog, user: {id: user.id}
+        # can :read, UserLog, user: {id: user.id}
 
-        can :read, Unit, id: user.unit_id
+        can :read, Team, id: user.team_id
+        can :read, Car, team_id: user.team_id
+        can :read, Driver, team_id: user.team_id
+        can :read, Station, team_id: user.team_id
 
     else
         cannot :manage, :all

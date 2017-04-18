@@ -1,0 +1,39 @@
+<%= form_for @car, :html => { :class => 'form-horizontal' } do |f| %>
+  <!-- <div class="control-group">
+    <%= f.label :no, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :no, :class => 'text_field' %>
+    </div>
+  </div> -->
+  <div class="control-group">
+    <%= f.label :car_number, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :car_number, :class => 'text_field' %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :car_type, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.select(:car_type, Car::TYPE_SHOW.invert, {include_blank: ''}) %>
+    </div>
+  </div>
+  <%= f.hidden_field("team_id") %>
+<!--   <div class="control-group">
+    <%= f.label :team_id, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :team_id, :class => 'text_field' %>
+    </div>
+  </div> -->
+  <div class="control-group">
+    <%= f.label :default_driver_id, :class => 'control-label' %>
+    <div class="controls">
+      <%= create_auto_driver("default_driver_id") %>
+    </div>
+  </div>
+
+  
+  <%= f.submit nil, :class => 'btn btn-primary' %>
+  <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+            cars_path, :class => 'btn btn-default' %>
+ 
+<% end %>

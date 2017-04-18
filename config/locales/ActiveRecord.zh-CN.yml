@@ -1,5 +1,5 @@
 zh-CN:
-  title: "上海邮政号段管理系统"
+  title: "上海邮政运输管理系统"
   welcome: "欢迎登陆"
   date:
     abbr_day_names:
@@ -266,9 +266,18 @@ zh-CN:
       user:
         one: 用户管理
         other: 用户管理
-      unit:
-        one: 单位管理
-        other: 单位管理
+      team:
+        one: 车队管理
+        other: 车队管理
+      car:
+        one: 车辆管理
+        other: 车辆管理
+      driver:
+        one: 司机管理
+        other: 司机管理
+      station:
+        one: 站点管理
+        other: 站点管理
       user_log:
         one: 用户日志
         other: 用户日志
@@ -286,18 +295,40 @@ zh-CN:
         sign_in_count: "登入次数"
         role: "角色"
         role_name: "角色"
-        unit_id: "所属单位"
-      unit:
+        team_id: "所属车队"
+      team:
         "no": "编号"
-        name: "单位名称"
-        desc: "单位描述"
-        short_name: "英文缩写"
-        tcbd_khdh: "商务投递客户编号"
-        level: "单位级别"
-        parent_id: "上级单位"
+        name: "车队名称"
+        leader_id: "车队队长"
+        created_at: "创建时间"
+      car:
+        "no": "编号"
+        car_number: "车牌"
+        car_type: "类型"
+        default_driver_id: "默认司机"
+        team_id: "所属车队"
+        created_at: "创建时间"
+      driver:
+        "no": "编号"
+        name: "姓名"
+        sex: "性别"
+        age: "年龄"
+        tel: "联系电话"
+        birthday: "生日"
+        default_car_id: "默认车辆"
+        team_id: "所属车队"
+        created_at: "创建时间"
+        work_age: "工龄"
+      station:
+        "no": "编号"
+        name: "站点名"
+        tel: "站点电话"
+        address: "站点地址"
+        team_id: "所属车队"
+        created_at: "创建时间"
       role:
-        user_id: "用户"
-        unit_id: "单位"
+        user: "用户"
+        team: "车队"
         role: "角色"
       user_log:
         user_id: "用户"
@@ -321,33 +352,50 @@ zh-CN:
           needrole:
             can: :read
             role: :User
-        unit_admin:
-          name: "单位管理"
-          link: "/units/"
+    team:
+      name: "车队管理"
+      needrole:
+        can: :read
+        role: :Team
+      submenu:
+        team_admin:
+          name: "车队管理"
+          link: "/teams/"
           need_count: false
           needrole:
             can: :read
-            role: :User
-        # role_admin:
-        #   name: "角色管理"
-        #   link: "/roles/"
-        #   needrole:
-        #     can: :read
-        #     role: :User
+            role: :Team
+        car:
+          name: "车辆管理"
+          link: "/cars/"
+          need_count: false
+          needrole:
+            can: :read
+            role: :Car
+        driver:
+          name: "司机管理"
+          link: "/drivers/"
+          need_count: false
+          needrole:
+            can: :read
+            role: :Driver
+        station:
+          name: "站点管理"
+          link: "/stations/"
+          need_count: false
+          needrole:
+            can: :read
+            role: :Station
     logs:
       name: "日志查询"
+      needrole:
+        can: :read
+        role: :UserLog
       submenu:
         user_log:
           name: "日志查询"
           link: "/user_logs"
           need_count: false
-        # interface_log:
-        #   name: "接口信息(info)"
-        #   link: "/interface_infos"
-        #   need_count: false
-        #   needrole:
-        #     can: :read
-        #     role: :InterfaceInfo
     # filetemp:
     #   name: "模板管理"
     #   needrole: 

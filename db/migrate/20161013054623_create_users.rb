@@ -20,7 +20,7 @@ class CreateUsers < ActiveRecord::Migration
       t.string   :username,      :null => false, :default => ""
       t.string   :role,    :null => false, :default => ""
       t.string   :name
-      t.integer  :unit_id
+      t.integer  :team_id
       t.timestamps
   	end
 

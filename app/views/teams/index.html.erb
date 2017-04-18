@@ -1,0 +1,29 @@
+<%- model_class = Team -%>
+<div class="page-header">
+  <h1><%=t '.title', :default => model_class.model_name.human%></h1>
+  <div style="float:right">
+    <% if can? :new, Team %>
+      <%= link_to t('.new', :default => t("helpers.links.new")),
+                  new_team_path,
+                  :class => 'btn btn-primary' %>
+    <% end %>
+  </div>
+</div>
+
+<%= grid(@teams_grid) do |g|
+
+    g.column name: model_class.human_attribute_name(:name), attribute: 'name'
+
+    g.column name: model_class.human_attribute_name(:no), attribute: 'no'
+
+    g.column name: model_class.human_attribute_name(:leader_id), attribute: 'leader_id' ,custom_filter: User.accessible_by(current_ability).map{|u| [u.name,u.id]} do |team|
+      team.leader.try :name
+    end
+
+    g.column do |team|
+      ActiveSupport::SafeBuffer.new << 
+        (link_to t('.edit', :default => t("helpers.links.edit")), edit_team_path(team), :class => 'btn btn-xs btn-primary' if can? :update, team) << ' ' <<
+        (link_to t('.destroy', :default => t("helpers.links.destroy")), team_path(team), :method => :delete, :data => { :confirm => t('wice_grid.saved_query_deletion_confirmation', :default => t("helpers.links.confirm", :default => '确定删除?')) }, :class => 'btn btn-xs btn-danger' if can? :destroy, team)
+    end
+  end 
+%>

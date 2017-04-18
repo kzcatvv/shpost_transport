@@ -14,9 +14,17 @@
 //= require jquery_ujs
 //= require jquery.ui.all
 //= require wice_grid
+//= require datepicker
 //= require autocomplete-rails
 
 
 //= require twitter/bootstrap
 //= require turbolinks
 //= require_tree .
+function ajaxAutoComplete() {
+  $(":input[id^='auto_complete_']").unbind('railsAutocomplete.select').bind('railsAutocomplete.select', function(event, data){
+    // alert(data.item.obj);
+    // alert(data.item.id);
+    $(":input[name='" + data.item.obj+"']").val(data.item.id);
+  });
+}

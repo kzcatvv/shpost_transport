@@ -40,9 +40,9 @@
 
   <% if can? :role, @user %>
     <div class="control-group">
-      <%= f.label :unit_id, :class => 'control-label' %>
+      <%= f.label :team_id, :class => 'control-label' %>
       <div class="controls">
-        <%= f.select(:unit_id, Unit.accessible_by(current_ability).map{|u| [u.name,u.id]})%>
+        <%= f.select(:team_id, Team.accessible_by(current_ability).map{|u| [u.name,u.id]})%>
       </div>
     </div>
 
@@ -54,8 +54,8 @@
     </div>
   <% else %>
     <dl class="dl-horizontal">
-      <dt><strong><%= f.label :unit_id%></strong></dt>
-      <dd><%= @user.unit.try :name %></dd>
+      <dt><strong><%= f.label :team_id%></strong></dt>
+      <dd><%= @user.team.try :name %></dd>
     </dl>
 
     <dl class="dl-horizontal">

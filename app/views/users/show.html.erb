@@ -10,8 +10,8 @@
   <dd><%= @user.username %></dd>
   <dt><strong><%= model_class.human_attribute_name(:email) %>:</strong></dt>
   <dd><%= @user.email %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:unit_id) %>:</strong></dt>
-  <dd><%= Unit.find(@user.unit_id).name %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:team_id) %>:</strong></dt>
+  <dd><%= @user.team.try :name %></dd>
 </dl>
 <% if can? :index, User %>
 <%= link_to t('.back', :default => t("helpers.links.back")),
