@@ -9,6 +9,9 @@ class Driver < ActiveRecord::Base
   SEX = {m: '男', f: '女'}
   
   def age
+    if self.birthday.blank?
+      self.birthday = Time.new.to_date
+    end
     ((Time.new.to_date - self.birthday).to_f/365).round
   end
 

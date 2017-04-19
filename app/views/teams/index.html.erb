@@ -16,9 +16,9 @@
 
     g.column name: model_class.human_attribute_name(:no), attribute: 'no'
 
-    g.column name: model_class.human_attribute_name(:leader_id), attribute: 'leader_id' ,custom_filter: User.accessible_by(current_ability).map{|u| [u.name,u.id]} do |team|
-      team.leader.try :name
-    end
+    # g.column name: model_class.human_attribute_name(:leader_id), attribute: 'leader_id' ,custom_filter: User.accessible_by(current_ability).map{|u| [u.name,u.id]} do |team|
+    #   team.leader.try :name
+    # end
 
     g.column do |team|
       ActiveSupport::SafeBuffer.new << 

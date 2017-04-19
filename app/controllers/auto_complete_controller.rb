@@ -25,7 +25,7 @@ class AutoCompleteController < ApplicationController
     class_name = params[:cls]
     obj_name = params[:obj]
     results = Driver.where("name like ?", "%#{term}%")
-    render :json => results.map { |result| {:id => result.id, :label => (result.name + " " + result.get_sex + " " + result.age.to_s), :value => result.name, :obj => class_name + "[" + obj_name + "]"} }
+    render :json => results.map { |result| {:id => result.id, :label => (result.name + " " + result.get_sex + " " + result.age.to_s + "岁"), :value => result.name, :obj => class_name + "[" + obj_name + "]"} }
   end
 
   def autocomplete_station_name

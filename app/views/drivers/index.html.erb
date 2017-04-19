@@ -9,43 +9,36 @@
     <% end %>
   </div>
 </div>
-<table class="table table-striped">
-  <thead>
-    <tr>
-      <th><%= model_class.human_attribute_name(:no) %></th>
-      <th><%= model_class.human_attribute_name(:name) %></th>
-      <th><%= model_class.human_attribute_name(:sex) %></th>
-      <th><%= model_class.human_attribute_name(:work_age) %></th>
-      <th><%= model_class.human_attribute_name(:tel) %></th>
-      <th><%= model_class.human_attribute_name(:team_id) %></th>
-      <th><%= model_class.human_attribute_name(:default_car_id) %></th>
-      <th><%= model_class.human_attribute_name(:birthday) %></th>
-      <th><%= model_class.human_attribute_name(:created_at) %></th>
-      <th><%=t '.actions', :default => t("helpers.actions") %></th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @drivers.each do |driver| %>
-      <tr>
-        <td><%= driver.no %></td>
-        <td><%= driver.name %></td>
-        <td><%= driver.get_sex %></td>
-        <td><%= driver.work_age %></td>
-        <td><%= driver.tel %></td>
-        <td><%= driver.team.try :name %></td>
-        <td><%= driver.default_car.try :car_number %></td>
-        <td><%= driver.birthday %></td>
-        <td><%=l driver.created_at %></td>
-        <td>
-          <%= link_to t('.edit', :default => t("helpers.links.edit")),
-                      edit_driver_path(driver), :class => 'btn btn-default btn-xs' if can? :update, driver %>
-          <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
-                      driver_path(driver),
-                      :method => :delete,
-                      :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
-                      :class => 'btn btn-xs btn-danger' if can? :destroy, driver %>
-        </td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+<%= grid(@drivers_grid) do |g|
+
+    g.column name: model_class.human_attribute_name(:no), attribute: 'no'
+
+    g.column name: model_class.human_attribute_name(:name), attribute: 'name'
+
+    g.column name: model_class.human_attribute_name(:sex), attribute: 'sex' ,custom_filter: Driver::SEX.invert do |driver|
+      driver.get_sex
+    end
+
+    g.column name: model_class.human_attribute_name(:work_age), attribute: 'work_age'
+
+    g.column name: model_class.human_attribute_name(:tel), attribute: 'tel'
+
+    g.column name: model_class.human_attribute_name(:team_id), attribute: 'team_id' ,custom_filter: Driver.accessible_by(current_ability).collect{|u| [(u.team.blank? ? "":u.team.name),u.team_id]}.uniq do |driver|
+      driver.team.try :name
+    end
+
+    g.column name: model_class.human_attribute_name(:default_car_id), attribute: 'default_car_id' ,custom_filter: Driver.accessible_by(current_ability).collect{|u| [(u.default_car.blank? ? "":u.default_car.car_number),u.default_car_id]} do |driver|
+      driver.default_car.try :car_number
+    end
+
+    g.column name: model_class.human_attribute_name(:birthday), attribute: 'birthday'
+
+    g.column name: model_class.human_attribute_name(:created_at), attribute: 'created_at'
+
+    g.column do |driver|
+      ActiveSupport::SafeBuffer.new << 
+        (link_to t('.edit', :default => t("helpers.links.edit")), edit_driver_path(driver), :class => 'btn btn-xs btn-primary' if can? :update, driver) << ' ' <<
+        (link_to t('.destroy', :default => t("helpers.links.destroy")), driver_path(driver), :method => :delete, :data => { :confirm => t('wice_grid.saved_query_deletion_confirmation', :default => t("helpers.links.confirm", :default => '确定删除?')) }, :class => 'btn btn-xs btn-danger' if can? :destroy, driver)
+    end
+  end 
+%>
