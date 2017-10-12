@@ -5,8 +5,8 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
-unit1 = Unit.create(name: 'unit1_name', desc: 'unit1_desc', no: '0001', short_name: 'ut1', level: '1')
+# unit1 = Unit.create(name: 'unit1_name', desc: 'unit1_desc', no: '0001', short_name: 'ut1', level: '1')
 
-superadmin = User.create(email: 'superadmin@examples.com', username: 'superadmin', password: '11111111', name: 'superadmin', role: 'superadmin', unit_id: 0)
+superadmin = User.create(email: 'superadmin@examples.com', username: 'superadmin', password: '11111111', name: 'superadmin', role: 'superadmin', team_id: 0)
 
-role_1 = Role.create(user: superadmin, unit: unit1, role: 'superadmin')
+role_1 = Role.create(user: superadmin, team_id: 0, role: 'superadmin')
